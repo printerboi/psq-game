@@ -1,0 +1,22 @@
+version: '3.5'
+services:
+    db:
+        image: mariadb
+        restart: always
+        environment:
+            MARIADB_DATABASE: PSQ
+            MARIADB_USER: ${DBUSER}
+            MARIADB_PASSWORD: ${DBPASSWORD}
+            MARIADB_RANDOM_ROOT_PASSWORD: '1'
+        ports:
+            - 3306:3306
+        volumes:
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        ports:
+            - '8080:80'
+        environment:
+            PMA_HOST: db

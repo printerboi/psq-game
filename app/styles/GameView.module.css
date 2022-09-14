@@ -1,0 +1,60 @@
+.container {
+    padding: 0 2rem;
+    background-color: white;
+}
+  
+.main {
+    min-height: 100vh;
+    padding: 4rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gameImage{
+    margin-bottom: 50px;
+    margin-top: 50px;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    border: 3px lightgray dashed;
+}
+
+.gameResultContainer{
+    width: 100%;
+    margin-top: 50px;
+}
+
+.ratingTable > thead > tr > th{
+    text-align: center;
+}
+
+.ratingTable > tbody > tr > td{
+    text-align: center;
+}
+
+.gameButtonContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 40px;
+}
+
+.winnerMessage{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.winnerEmoji{
+    font-size: 50px;
+}
