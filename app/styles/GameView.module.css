@@ -58,3 +58,39 @@
 .winnerEmoji{
     font-size: 50px;
 }
+
+.viewHeadline{
+    text-align: center;
+}
+
+.shareInformation{
+    margin-top: 50px;
+    text-align: center;
+}
+
+.gameCode{
+    background-color: lightgray;
+    padding: 2px 5px 2px 5px;
+    border-radius: 10%;
+    color: #A10702;
+}
+
+.copyInvitation{
+    margin-top: 25px;
+}
+
+.copyText{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+    color: #4cd964; 
+}
+
+.showCopy{
+    display: flex;
+}
+
+.hideCopy{
+    display: none;
+}

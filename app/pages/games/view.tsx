@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import ReducedNavbar from '../../components/reducedNavbar';
+import e from 'express';
 
 //Define a type for the cookie
 type User = {
@@ -88,7 +89,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
                     });
 
 
-                    if(state.id == game?.createdBy){
+                    if(state.id == game?.createdById){
                         
                     }else{
                         return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/'} };
@@ -116,14 +117,19 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
     const gamePrice = numberFormatter.format(props.Game.sum);
 
     const [ game, setGame ] = useState(props.Game);
+    const [ showCopy, setShowCopy ] = useState(false);
     const router = useRouter();
+
+    const refreshData = () => {
+        router.replace(router.asPath);
+    }
 
     const refreshGame = async () => {
         try{
             const res = await axios.get(`/api/game/${game.id}`);
             setGame(res.data.message);
         }catch(e: any){
-            router.replace('/');
+            //router.replace('/');
         }
     }
 
@@ -160,6 +166,28 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
         }else{
             console.log("No minimum found");
         }
+
+        refreshData();
+    }
+
+    const copyLink = () => {
+        console.log(router.basePath);
+        navigator.clipboard.writeText(`${window.location.hostname}/games/rate/${props.id}`);
+        setShowCopy(true);
+    }
+
+    setInterval(() => {
+        if(showCopy){
+            setShowCopy(false);
+        }
+    }, 60000);
+
+    const getVisible = () => {
+        if(showCopy){
+            return styles.showCopy;
+        }else{
+            return styles.hideCopy;
+        }
     }
 
     console.log(props.Game);
@@ -167,21 +195,16 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
     if(props.Game.winner){
         return (
             <>
-            <ReducedNavbar router={router} />
+            <ReducedNavbar active={"Games"} />
             <div className={styles.container}>
                 <Head>
                     <title>Ergebnisse für Game</title>
                     <meta name="description" content="Bewertung der Mitarbeiter" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-    
-                
-
+   
                 <main className={styles.main}>
-
-                    
-
-                    <h3>{props.InitialState.username} Einkauf bei {props.Game.shop}</h3>
+                    <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
     
                     <div className={styles.gameImage}>
                         Placeholder
@@ -204,7 +227,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
     }else{
         return (
             <>
-                <ReducedNavbar router={router} />
+                <ReducedNavbar active={"Games"} />
                 <div className={styles.container}>
                     <Head>
                         <title>Ergebnisse für Game</title>
@@ -213,7 +236,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
                     </Head>
         
                     <main className={styles.main}>
-                        <h3>{props.InitialState.username} Einkauf bei {props.Game.shop}</h3>
+                        <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
         
                         <div className={styles.gameImage}>
                             Placeholder
@@ -248,6 +271,14 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
         
                             <div className={styles.gameButtonContainer}>
                                 <Button variant='danger' onClick={calcWinner}>Abstimmung schließen</Button>
+                            </div>
+
+                            <div className={styles.shareInformation}>
+                                <div className={styles.shareInformationText}>
+                                    Der Code des Games lautet <span className={styles.gameCode}>{props.id}</span> Teile diesen Code mit deinen Spielern oder klicke auf "Einladung kopieren" um einen Link für das Game zu erhalten, über den deine Spieler beitreten können! Happy Guessing
+                                </div>
+                                <div className={`${styles.copyText} ${getVisible()}` }>kopiert!</div>
+                                <Button className={styles.copyInvitation} variant='primary' onClick={copyLink}>Einladung kopieren</Button>
                             </div>
                         </div>
         

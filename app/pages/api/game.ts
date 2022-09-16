@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
                         const nGame = await prisma.game.create({
                             data:{
-                                createdBy: createdBy,
+                                createdById: createdBy,
                                 createdAt: now,
                                 shop: shop,
                                 sum: amount,
@@ -59,7 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         }else{
             return res.status(400).send({ errorcode: 98, message: "The request method is forbidden!" });
         }
-     }else{
+    }else{
         //If the request is anything other than a POST
         return res.status(400).send({ errorcode: 1, message: "The request method is forbidden!" });
     }

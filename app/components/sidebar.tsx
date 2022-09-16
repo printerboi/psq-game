@@ -96,7 +96,6 @@ const Sidebar = (props: PropsData) => {
         
 
         return elementsContent;
-        
     }
 
     return (

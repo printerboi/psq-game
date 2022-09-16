@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap'
+import ReducedNavbar from '../../components/reducedNavbar'
 import styles from '../../styles/CreateGame.module.css'
 
 //Define a type for the cookie
@@ -52,7 +53,7 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
          try{
             const res = await axios.post(`/api/game/`, newGame);
 
-            router.push(`/game/view?id=${res.data.message}`)
+            router.push(`/games/view?id=${res.data.message}`)
          }catch(e: any){
 
             if(e.response.status == 400){
@@ -67,62 +68,64 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
     }
 
     return (
-        <div className={styles.container}>
-          <Head>
-            <title>Dashboard</title>
-            <meta name="description" content="Dashboard der Anwendung" />
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-    
-          <main className={styles.main}>
-              <h2 className={styles.title}>
-                Ein neues Game erstellen
-              </h2>
-    
-    
-                <div className={styles.gameForm}>
-                    <div className={styles.gameImage}>
-                        Placeholder
+        <>
+            <div className={styles.container}>
+                <Head>
+                    <title>Dashboard</title>
+                    <meta name="description" content="Dashboard der Anwendung" />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+            
+                <main className={styles.main}>
+                    <h2 className={styles.title}>
+                        Ein neues Game erstellen
+                    </h2>
+            
+                    <div className={styles.gameForm}>
+                        <div className={styles.gameImage}>
+                            Placeholder
+                        </div>
+
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="shop">Laden</InputGroup.Text>
+                            <Form.Control
+                                placeholder="Laden wo die Einkäufe gekauft wurden"
+                                aria-label="shop"
+                                aria-describedby="shop"
+                                defaultValue={newGame.shop}
+                                onChange={(e) => {
+                                    setShowError(false);
+                                    setNewGame({...newGame, shop: e.target.value});
+                                }}
+                            />
+                        </InputGroup>
+
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="sum">Summe</InputGroup.Text>
+                            <Form.Control
+                                type="number"
+                                placeholder="0.00"
+                                aria-label="shop"
+                                aria-describedby="shop"
+                                value={newGame.sum}
+                                onChange={(e) => {
+                                    setShowError(false);
+                                    setNewGame({...newGame, sum: parseFloat(e.target.value)});
+                                }}
+                            />
+                        </InputGroup>
                     </div>
+                
+                    <Alert variant={'danger'} show={showError}>
+                        {errMsg}
+                    </Alert>
 
-                    <InputGroup className="mb-3">
-                        <InputGroup.Text id="shop">Laden</InputGroup.Text>
-                        <Form.Control
-                            placeholder="Laden wo die Einkäufe gekauft wurden"
-                            aria-label="shop"
-                            aria-describedby="shop"
-                            defaultValue={newGame.shop}
-                            onChange={(e) => {
-                                setShowError(false);
-                                setNewGame({...newGame, shop: e.target.value});
-                            }}
-                        />
-                    </InputGroup>
+                    <Button variant='success' onClick={createGame}>Game erstellen</Button>
 
-                    <InputGroup className="mb-3">
-                        <InputGroup.Text id="sum">Summe</InputGroup.Text>
-                        <Form.Control
-                            type="number"
-                            placeholder="0.00"
-                            aria-label="shop"
-                            aria-describedby="shop"
-                            value={newGame.sum}
-                            onChange={(e) => {
-                                setShowError(false);
-                                setNewGame({...newGame, sum: parseFloat(e.target.value)});
-                            }}
-                        />
-                    </InputGroup>
-                </div>
-              
-                <Alert variant={'danger'} show={showError}>
-                    {errMsg}
-                </Alert>
-
-                <Button variant='success' onClick={createGame}>Game erstellen</Button>
-
-            </main>
-        </div>
+                </main>
+            </div>
+            <ReducedNavbar active='CreateGame'/>
+        </>
     );
 }
 

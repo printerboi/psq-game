@@ -1,0 +1,22 @@
+.container {
+    padding: 0 2rem;
+    background-color: white;
+}
+  
+.main {
+    min-height: 100vh;
+    padding: 4rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.rateHeadline{
+    margin-bottom: 25px;
+}
+
+.joinIcon{
+    font-size: 25px;
+}

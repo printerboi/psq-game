@@ -19,17 +19,19 @@ model User {
   roleid    Int?
   role      Role?      @relation(fields: [roleid], references: [id])
   ratings    Rating[]
-  gamesWon  Game[]
+  gamesWon  Game[] @relation(name: "createdBy")
+  gamesCreated  Game[] @relation(name: "winner")
 }
 
 model Game {
   id        Int        @id @default(autoincrement())
   createdAt String
-  createdBy Int
+  createdBy User?      @relation(fields: [createdById], references: [id],  name: "createdBy")
+  createdById Int
   sum       Float
   shop      String
   winnerId  Int?
-  winner    User?      @relation(fields: [winnerId], references: [id])
+  winner    User?      @relation(fields: [winnerId], references: [id], name: "winner")
   ratings   Rating[]
 }
 

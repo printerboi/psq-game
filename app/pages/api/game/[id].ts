@@ -127,7 +127,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                                         },
                                     },
                                     {
-                                        createdBy: {
+                                        createdById: {
                                             equals: loginObj.id,
                                         },
                                     }
@@ -136,7 +136,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                         });
 
                         if(game == null){
-                            return res.status(404).send({errorcode: 0, message: "Game not found"});
+                            return res.status(404).send({errorcode: 5, message: "Game not found"});
                         }else{
                             return res.status(200).send({errorcode: 0, message: game});
                         }

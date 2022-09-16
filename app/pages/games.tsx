@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         where: { 
             OR: [
                 {
-                    createdBy: {
+                    createdById: {
                         equals: state.id,
                     },
                 },
@@ -105,7 +105,6 @@ const Games: NextPage<InitialProps> = ( props: InitialProps ) => {
 
     return (
         <>
-            <ReducedNavbar router={router} />
             <div className={styles.container}>
                 <Head>
                     <title>Games</title>
@@ -115,8 +114,9 @@ const Games: NextPage<InitialProps> = ( props: InitialProps ) => {
 
                 <main className={styles.main}>
                     <div className={styles.content}>
-                    <ListGroup as="ol">    
-                        {props.Data.games.map((game: Game) => {
+                        <h3 className={styles.headline}>Deine Games</h3>
+                        <ListGroup as="ol">    
+                            {props.Data.games.map((game: Game) => {
                                 let gameCode = Buffer.from(game.id.toString()).toString('base64');
 
                                 const getStatus = () => {
@@ -130,7 +130,7 @@ const Games: NextPage<InitialProps> = ( props: InitialProps ) => {
                                 }
 
                                 return(
-                                    <Link href={`/games/view?id=${gameCode}`}>
+                                    <Link href={`/games/view?id=${gameCode}`} key={game.id}>
                                         <ListGroup.Item
                                             as="li"
                                             className={`d-flex justify-content-between align-items-start ${styles.listItem}` }
@@ -153,6 +153,7 @@ const Games: NextPage<InitialProps> = ( props: InitialProps ) => {
                     </div>
                 </main>
             </div>
+            <ReducedNavbar active={"Games"}/>
         </>
   )
 }

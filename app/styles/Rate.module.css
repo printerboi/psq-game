@@ -1,0 +1,47 @@
+.container {
+    padding: 0 2rem;
+    background-color: white;
+}
+  
+.main {
+    min-height: 100vh;
+    padding: 4rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rateHeadline{
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.gameCode{
+    color: lightgray;
+    margin-bottom: 25px;
+}
+
+.gameImage{
+    margin-bottom: 50px;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+
+    border: 3px lightgray dashed;
+}
+
+.rateButton{
+    margin-top: 25px;
+}
+
+.result{
+    text-align: center;
+}
+
+.mock{
+    font-size: 35px;
+}

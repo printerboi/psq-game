@@ -1,11 +1,15 @@
+import axios from 'axios'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import ReducedNavbar from '../components/reducedNavbar'
 import Sidebar from '../components/sidebar'
 import styles from '../styles/Home.module.css'
 
 //Define a type for the cookie
 type User = {
+  id: Number,
   username: String,
   email: String,
   roleid: Number
@@ -36,6 +40,21 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 
 const Home: NextPage<InitialProps> = ( props: InitialProps ) => {
+  const [ wins, setWins ] = useState(0);
+
+  const calcPoints = async () => {
+    try{
+      const res = await axios.get(`/api/wins/${props.InitialState.id}`);
+      setWins(res.data.message);
+    }catch(e: any){
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    calcPoints();
+  }, []);
+
   if(props.InitialState.roleid == 1){
     return (
       <div className={styles.container}>
@@ -61,37 +80,32 @@ const Home: NextPage<InitialProps> = ( props: InitialProps ) => {
     )
   }else{
     return (
-      <div className={styles.container}>
-        <Head>
-          <title>Spiel erstellen</title>
-          <meta name="description" content="Dashboard der Anwendung" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-  
-        <main className={styles.main}>
-            <h3 className={styles.title}>
-              Willkommen beim P.S.Q
-            </h3>
-  
-  
-            <div className={styles.grid}>
-              <a href="/games/create" className={styles.card} target="_blank">
-                <h2>Spiel starten &rarr;</h2>
-                <p>Ein neues PSQ starten</p>
-              </a>
+      <>
+        <div className={styles.container}>
+          <Head>
+            <title>Spiel erstellen</title>
+            <meta name="description" content="Dashboard der Anwendung" />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+    
+          <main className={styles.main}>
+              <div className={styles.welcome}>
+                <Image src="/logo.png" alt="Vercel Logo" width={100} height={100} />
+                <h3 className={styles.title}>
+                  Willkommen beim P.S.Q
+                </h3>
+              </div>
 
-              <a href="/games" className={styles.card} target="_blank">
-                <h2>Meine Games &rarr;</h2>
-                <p>Meine PSQs ansehen</p>
-              </a>
+              <div className={styles.pointsCounter}>Deine aktuelle Punktzahl ist:<br/> <span className={styles.points}>{wins}</span></div>
+    
+              <div className={styles.grid}>
+                
+              </div>
+            </main>
+        </div>
 
-              <a href="/games/join" className={styles.card} target="_blank">
-                <h2>Bewerten &rarr;</h2>
-                <p>Einen PSQ bewerten</p>
-              </a>
-            </div>
-          </main>
-      </div>
+        <ReducedNavbar active='Home'/>
+      </>
     )
   }
 }
