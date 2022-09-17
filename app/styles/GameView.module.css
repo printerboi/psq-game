@@ -14,13 +14,12 @@
 
 .gameImage{
     margin-bottom: 50px;
-    margin-top: 50px;
-    height: 50vh;
+    max-height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    max-width: 300px;
 
     border: 3px lightgray dashed;
 }

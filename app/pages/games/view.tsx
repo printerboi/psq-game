@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import ReducedNavbar from '../../components/reducedNavbar';
-import e from 'express';
 
 //Define a type for the cookie
 type User = {
@@ -88,11 +87,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
                         }
                     });
 
+                    console.log(game);
 
-                    if(state.id == game?.createdById){
-                        
+
+                    if(game){
+                        if(state.id != game?.createdById){
+                            return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/'} };   
+                        }
                     }else{
-                        return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/'} };
+                        return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/games/'} };
                     }
 
                 }else{
@@ -207,7 +210,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
                     <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
     
                     <div className={styles.gameImage}>
-                        Placeholder
+                        <Image src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
                     </div>
     
                     <div className={styles.gamePrice}>
@@ -239,8 +242,9 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
                         <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
         
                         <div className={styles.gameImage}>
-                            Placeholder
+                            <Image src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
                         </div>
+
         
                         <div className={styles.gamePrice}>
                             <h3>{gamePrice}</h3>

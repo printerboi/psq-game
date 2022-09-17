@@ -3,6 +3,7 @@ import Head from 'next/head'
 import styles from '../../../styles/Rate.module.css'
 import { prisma } from '../../../db';
 import { useEffect, useState } from 'react'
+import Image from 'next/image';
 import axios from 'axios';
 import ReducedNavbar from '../../../components/reducedNavbar';
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
@@ -89,6 +90,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
                     if(!game){
                         return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/'} }; 
+                    }else{
+                        if(game.createdById == state.id){
+                            return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/'} };
+                        }
                     }
                 }else{
                     return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/'} };
@@ -120,6 +125,10 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
     const placeRating = (async () => {
         try{
             let nRating = await axios.post(`/api/rate/${game.id}`, {value: rating});
+            let gameFromDB = await axios.get(`/api/game/${props.id}`);
+
+            setGame(gameFromDB.data.message);
+
         }catch(e: any){
             console.log(e.response);
             if(e.response.data.errorcode == 5){
@@ -153,7 +162,7 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
         if(winner){
             return winner.username
         }else{
-            return "unentschieden";
+            return "noch nicht entschieden";
         }
     }
 
@@ -181,11 +190,10 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                     </Head>
         
                     <main className={styles.main}>
-                        <div className={styles.gameCode}>#{props.id}</div>
                         <h3 className={styles.rateHeadline}>Einkauf von {props.Game.createdBy.username}</h3>
         
                         <div className={styles.gameImage}>
-                            Placeholder
+                            <Image src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
                         </div>
 
                         <div className={styles.result}>
@@ -211,10 +219,10 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
         
                     <main className={styles.main}>
                         <div className={styles.gameCode}>#{props.id}</div>
-                        <h3 className={styles.rateHeadline}>Einkauf von {props.Game.createdBy.username}</h3>
+                        <h3 className={styles.rateHeadline}>Einkauf von {props.Game.createdBy.username} bei {props.Game.shop}</h3>
         
                         <div className={styles.gameImage}>
-                            Placeholder
+                            <Image src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
                         </div>
         
                         <InputGroup className="mb-3">

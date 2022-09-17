@@ -13,6 +13,18 @@
     justify-content: center;
 }
 
+.gameImage{
+    margin-bottom: 50px;
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    border: 3px lightgray dashed;
+}
+
 .rateHeadline{
     margin-bottom: 25px;
 }

@@ -87,11 +87,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
                         }
                     });
 
+                    console.log(state);
 
-                    if(state.id == game?.createdById){
-                        
-                    }else{
-                        return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/'} };
+                    if(state.id != game?.createdById){
+                        return { props: { InitialState: {}, Data: {} }, redirect: { permanent: false, destination: '/'} };   
                     }
 
                 }else{
@@ -117,9 +116,9 @@ const GameRate: NextPage<InitialProps> = ( props: InitialProps ) => {
     const joinGame = async () => {
 
         try{
-            let game = await axios.get(`/api/game/${gamecode}`);
+            let game = await axios.get(`/api/game/${gamecode}`);         
 
-            if(game.data.createdById != props.InitialState.id){
+            if(game.data.message.createdById != props.InitialState.id){
                 router.replace(`/games/rate/${gamecode}`);
             }else{
                 setShowError(true);

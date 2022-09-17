@@ -42,6 +42,12 @@ let playerLinks = [
         link: '/games/rate',
         text: 'Bewerten',
     },
+    {
+        icon: 'bxs-user-circle',
+        activeCheck: 'Account',
+        link: '/account',
+        text: 'Account',
+    }
 ];
 
 

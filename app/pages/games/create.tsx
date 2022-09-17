@@ -3,7 +3,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap'
 import ReducedNavbar from '../../components/reducedNavbar'
 import styles from '../../styles/CreateGame.module.css'
@@ -19,6 +19,59 @@ type User = {
 interface InitialProps {
   InitialState: User;
 }
+
+/**
+ * Returns the last file extension present in the provided string
+ *
+ * @param {string} type the file extension
+ * @return {string} Returns the last occurence of the file exentions present in the string
+ */
+ export function getFileExtension(type: string): string{
+    let parsedType = type.substring(type.lastIndexOf('\/') + 1);
+
+    return "." + parsedType;
+}
+
+/**
+ * Test if a provided mime-type is allowed for a file upload
+ *
+ * @param {string} type The mime-type of a file
+ * @return {boolean} Returns if the provided mime-type is allowed
+ */
+export function isTypeAllowed( type: string ): boolean {
+    let isAllowed = false;
+
+    switch(type){
+        case('image/jpg'):
+            isAllowed = true;
+            break;
+        case('image/jpeg'):
+            isAllowed = true;
+            break;
+        case('image/gif'):
+            isAllowed = true;
+            break;
+        case('image/apng'):
+            isAllowed = true;
+            break;
+        case('image/png'):
+            isAllowed = true;
+            break;
+        case('image/avif'):
+            isAllowed = true;
+            break;
+        case('image/svg+xml'):
+            isAllowed = true;
+            break;
+        case('image/webp'):
+            isAllowed = true;
+            break;
+    }
+
+    return isAllowed;
+}
+
+const allowdTypes = ['image/jpg', 'image/jpeg', 'image/gif', 'image/apng', 'image/png', 'image/webp']
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   //Get the context of the request
@@ -45,15 +98,69 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
     }
     
     const [ newGame, setNewGame ] = useState(initalGame);
+    const [imageURLObject, setImageURLObject] = useState('');
     const [ errMsg, setErrMsg ] = useState("");
     const [ showError, setShowError ] = useState(false);
+    const [showRemoveImageOverlay, setShowRemoveImageOverlay] = useState(false);
     const router = useRouter();
+
+    const fileRef = useRef<HTMLInputElement>(null);
 
     const createGame = async () => {
          try{
             const res = await axios.post(`/api/game/`, newGame);
 
-            router.push(`/games/view?id=${res.data.message}`)
+            console.log(fileRef);
+
+            let fileList = fileRef.current?.files;
+
+            console.log(fileList);
+
+            let newId = res.data.message;
+
+            if(fileList){
+                if(fileList.length == 1){
+                    let type = fileList[0].type;
+                    if(isTypeAllowed(type)){
+                        setShowError(false);
+
+                        let oldFilename = fileList[0].name;
+                        let typeEnding = "";
+
+                        typeEnding = getFileExtension(type);
+                        
+                        let formData = new FormData();
+                        formData.append("filesize", fileList[0].size.toString());
+                        formData.append("watchImage", fileList[0] , fileList[0].name);
+
+
+                        const config = {
+                            headers: { 'content-type': 'multipart/form-data' },
+                            onUploadProgress: (event: any) => {
+                                console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
+                            },
+                        };
+                    
+                        try{
+                            let response = await axios.post(`/api/game/upload/${newId}`, formData, config);                            
+
+                        }catch(e){
+                            //Show Error message something went wrong during upload...
+                            setErrMsg("Etwas ist beim Hochladen des Bildes schiefgelaufen. Bittte versuchen Sie es später erneut");
+                            setShowError(true);
+                        }
+                    
+                    }else{
+                        //Show Error message unsuported file type...
+                        setErrMsg("Der Dateityp der Datei wird nicht unterstützt. Erlaube Dateitypen sind: .png .jpg .jpeg .gif .webp");
+                        setShowError(true);
+                    }
+                
+                }
+            }
+
+
+            router.push(`/games/view?id=${res.data.message}`);
          }catch(e: any){
 
             if(e.response.status == 400){
@@ -65,6 +172,24 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
             setErrMsg("");
             setShowError(false);
          }
+    }
+
+    const uploadGameImage = async (e: React.SyntheticEvent) => {
+        e.preventDefault();
+
+        console.log(e.target);
+
+        const target = e.target as typeof e.target & {
+            files: FileList
+        };
+
+        setImageURLObject(URL.createObjectURL(target.files[0]));
+        setShowRemoveImageOverlay(true);
+    }
+
+    const resetImage = async () => {
+        setImageURLObject("");
+        setShowRemoveImageOverlay(false);
     }
 
     return (
@@ -82,9 +207,14 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
                     </h2>
             
                     <div className={styles.gameForm}>
-                        <div className={styles.gameImage}>
-                            Placeholder
+                        <div onClick={() => {resetImage()}} className={`${styles.removeImageOverlay} ${(showRemoveImageOverlay)? '': styles.hideRemoveImage}`}>
+                            <i className='bx bx-x-circle' ></i>
                         </div>
+                        <div className={styles.gameImage} onClick={() => {fileRef.current?.click();}}>
+                            <Image src={imageURLObject} width={300} height={600} layout='intrinsic'/>
+                        </div>
+
+                        <Form.Control style={{display: 'none'}} accept={allowdTypes.toString()} ref={fileRef} name='image' type="file" onChange={(e) => {uploadGameImage(e)}}/>
 
                         <InputGroup className="mb-3">
                             <InputGroup.Text id="shop">Laden</InputGroup.Text>

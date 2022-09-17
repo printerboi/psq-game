@@ -106,7 +106,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 let gameIdString = req.query.id as string;
 
                 if( gameIdString ){
-                    let gameId = parseInt(gameIdString);
+                    let gameId = parseInt(Buffer.from(gameIdString, 'base64').toString('ascii'));
+
+                    console.log(gameIdString);
 
                     if( !isNaN(gameId) && gameId != -1 ){
 
