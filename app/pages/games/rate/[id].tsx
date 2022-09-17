@@ -174,7 +174,7 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                 return "😢";
             }
         }else{
-            return "🥳";
+            return "🕧";
         }
     }
 
@@ -193,7 +193,7 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                         <h3 className={styles.rateHeadline}>Einkauf von {props.Game.createdBy.username}</h3>
         
                         <div className={styles.gameImage}>
-                            <Image src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
+                            <Image alt="Bild des Einkaufs" src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
                         </div>
 
                         <div className={styles.result}>
@@ -215,6 +215,10 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                         <title>{`Game ${props.id}`}</title>
                         <meta name="description" content="Bewertung der Mitarbeiter" />
                         <link rel="icon" href="/favicon.ico" />
+                        <meta property="og:title" content={`Einkauf ${props.id} von ${props.InitialState.username}`} />
+                        <meta property="og:type" content="website" />
+                        <meta property="og:url" content={`https://psq.maximiliankrebs.com/games/rate/${props.id}`} />
+                        <meta property="og:image" content={`https://psq.maximiliankrebs.com/uploads/${props.id}.png`} />
                     </Head>
         
                     <main className={styles.main}>
@@ -222,7 +226,7 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                         <h3 className={styles.rateHeadline}>Einkauf von {props.Game.createdBy.username} bei {props.Game.shop}</h3>
         
                         <div className={styles.gameImage}>
-                            <Image src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
+                            <Image alt="Bild des Einkaufs" src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
                         </div>
         
                         <InputGroup className="mb-3">

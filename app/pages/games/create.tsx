@@ -211,7 +211,7 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
                             <i className='bx bx-x-circle' ></i>
                         </div>
                         <div className={styles.gameImage} onClick={() => {fileRef.current?.click();}}>
-                            <Image src={imageURLObject} width={300} height={600} layout='intrinsic'/>
+                            <Image alt="Bild des Einkaufs" src={imageURLObject} width={300} height={600} layout='intrinsic'/>
                         </div>
 
                         <Form.Control style={{display: 'none'}} accept={allowdTypes.toString()} ref={fileRef} name='image' type="file" onChange={(e) => {uploadGameImage(e)}}/>

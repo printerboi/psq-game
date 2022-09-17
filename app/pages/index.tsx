@@ -90,7 +90,7 @@ const Home: NextPage<InitialProps> = ( props: InitialProps ) => {
     
           <main className={styles.main}>
               <div className={styles.welcome}>
-                <Image src="/logo.png" alt="Vercel Logo" width={100} height={100} />
+                <Image src="/logo.png" alt="PSQ Logo" width={100} height={100} />
                 <h3 className={styles.title}>
                   Willkommen beim P.S.Q
                 </h3>

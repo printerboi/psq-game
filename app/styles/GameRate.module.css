@@ -21,10 +21,10 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    position: relative;
 
     border: 3px lightgray dashed;
 }
-
 .rateHeadline{
     margin-bottom: 25px;
 }

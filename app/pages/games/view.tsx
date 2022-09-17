@@ -210,7 +210,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
                     <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
     
                     <div className={styles.gameImage}>
-                        <Image src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
+                        <Image alt="Bild des Einkaufs" src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
                     </div>
     
                     <div className={styles.gamePrice}>
@@ -242,7 +242,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
                         <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
         
                         <div className={styles.gameImage}>
-                            <Image src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
+                            <Image alt="Bild des Einkaufs" src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
                         </div>
 
         
@@ -279,7 +279,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
 
                             <div className={styles.shareInformation}>
                                 <div className={styles.shareInformationText}>
-                                    Der Code des Games lautet <span className={styles.gameCode}>{props.id}</span> Teile diesen Code mit deinen Spielern oder klicke auf "Einladung kopieren" um einen Link für das Game zu erhalten, über den deine Spieler beitreten können! Happy Guessing
+                                    Der Code des Games lautet <span className={styles.gameCode}>{props.id}</span> Teile diesen Code mit deinen Spielern oder klicke auf Einladung kopieren um einen Link für das Game zu erhalten, über den deine Spieler beitreten können! Happy Guessing
                                 </div>
                                 <div className={`${styles.copyText} ${getVisible()}` }>kopiert!</div>
                                 <Button className={styles.copyInvitation} variant='primary' onClick={copyLink}>Einladung kopieren</Button>
