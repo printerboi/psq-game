@@ -61,7 +61,7 @@ const ReducedNavbar = (props: PropsData) => {
             let isIconActive = (activeElement == element.activeCheck)? styles.activeicon: "";
             
             return (
-                <div className={styles.LinkElement}>
+                <div className={styles.LinkElement} key={key}>
                     <Link href={element.link} key={key} shallow={false}>
                         <div className={styles.nav_link + " " + isElementActive}> 
                             <i className={`bx ${element.icon} ${styles.nav_icon} ${isIconActive}`}></i>
