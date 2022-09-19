@@ -202,7 +202,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
             <div className={styles.container}>
                 <Head>
                     <title>Ergebnisse für Game</title>
-                    <meta name="description" content="Bewertung der Mitarbeiter" />
+                    <meta name="description" content="PSQ ein laufendes Spiel betrachten" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
    
@@ -210,7 +210,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
                     <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
     
                     <div className={styles.gameImage}>
-                        <Image alt="Bild des Einkaufs" src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
+                        <Image alt="Bild des Einkaufs" src={`/api/image-endpoint/${props.id}.png`} width={300} height={600} layout={'fill'} objectFit={'contain'}/>
                     </div>
     
                     <div className={styles.gamePrice}>
@@ -242,7 +242,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
                         <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
         
                         <div className={styles.gameImage}>
-                            <Image alt="Bild des Einkaufs" src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
+                            <Image alt="Bild des Einkaufs" src={`/api/image-endpoint/${props.id}.png`} width={300} height={600} layout={'fill'} objectFit={'contain'}/>
                         </div>
 
         

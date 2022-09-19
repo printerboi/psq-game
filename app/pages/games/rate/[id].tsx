@@ -185,7 +185,7 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                 <div className={styles.container}>
                     <Head>
                         <title>{`Game ${props.id}`}</title>
-                        <meta name="description" content="Bewertung der Mitarbeiter" />
+                        <meta name="description" content={`PSQ Game ${props.id}`} />
                         <link rel="icon" href="/favicon.ico" />
                     </Head>
         
@@ -193,7 +193,7 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                         <h3 className={styles.rateHeadline}>Einkauf von {props.Game.createdBy.username}</h3>
         
                         <div className={styles.gameImage}>
-                            <Image alt="Bild des Einkaufs" src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
+                            <Image alt="Bild des Einkaufs" src={`/api/image-endpoint/${props.id}.png`} width={300} height={600} layout={'fill'} objectFit={'contain'}/>
                         </div>
 
                         <div className={styles.result}>
@@ -213,7 +213,7 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                 <div className={styles.container}>
                     <Head>
                         <title>{`Game ${props.id}`}</title>
-                        <meta name="description" content="Bewertung der Mitarbeiter" />
+                        <meta name="description" content="PSQ Gib jetzt deine Bewertung ab" />
                         <link rel="icon" href="/favicon.ico" />
                         <meta property="og:title" content={`Einkauf ${props.id} von ${props.InitialState.username}`} />
                         <meta property="og:type" content="website" />
@@ -226,7 +226,7 @@ const Rate: NextPage<InitialProps> = ( props: InitialProps ) => {
                         <h3 className={styles.rateHeadline}>Einkauf von {props.Game.createdBy.username} bei {props.Game.shop}</h3>
         
                         <div className={styles.gameImage}>
-                            <Image alt="Bild des Einkaufs" src={`/uploads/${props.id}.png`} width={300} height={600} layout='intrinsic'/>
+                            <Image alt="Bild des Einkaufs" src={`/api/image-endpoint/${props.id}.png`} width={300} height={600} layout={'fill'} objectFit={'contain'}/>
                         </div>
         
                         <InputGroup className="mb-3">

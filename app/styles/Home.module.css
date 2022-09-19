@@ -54,7 +54,10 @@
   align-items: center;
 }
 
-
+.rankTable{
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
 
 .title,
 .description {

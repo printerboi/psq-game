@@ -21,6 +21,7 @@ model User {
   ratings    Rating[]
   gamesWon  Game[] @relation(name: "createdBy")
   gamesCreated  Game[] @relation(name: "winner")
+  pointOffset Int @default(0)
 }
 
 model Game {

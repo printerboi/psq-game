@@ -25,25 +25,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 console.log(data);
 
                 //Check if the needed fields are provided
-                if( data.createdBy && data.shop && data.shop != "" && data.sum ){
+                if( data.createdBy && data.shop && data.shop != "" && data.sum){
                     try {
                         let createdBy = parseInt(data.createdBy);
                         let shop = data.shop;
                         let amount = parseFloat(data.sum);
                         let now = Date.now().toString();
 
-                        const nGame = await prisma.game.create({
-                            data:{
-                                createdById: createdBy,
-                                createdAt: now,
-                                shop: shop,
-                                sum: amount,
-                            }
-                        });
-
-                        let gameCode = Buffer.from(nGame.id.toString()).toString('base64');
-
-                        return res.status(200).send({ errorcode: 1, message: gameCode });
+                        if(amount >= 0){
+                            const nGame = await prisma.game.create({
+                                data:{
+                                    createdById: createdBy,
+                                    createdAt: now,
+                                    shop: shop,
+                                    sum: amount,
+                                }
+                            });
+    
+                            let gameCode = Buffer.from(nGame.id.toString()).toString('base64');
+    
+                            return res.status(200).send({ errorcode: 1, message: gameCode });
+                        }else{
+                            return res.status(400).send({ errorcode: 97, message: "The sum is malformed!" });
+                        }
                     }catch(e){
                         console.log(e);
                         return res.status(400).send({ errorcode: 1, message: "The provided Data has the wrong format" });

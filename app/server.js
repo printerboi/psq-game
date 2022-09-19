@@ -1,6 +1,6 @@
 // server.js
-const { createServer } = require('http')
-const { parse } = require('url')
+const http = require('http');
+const express = require('express');
 const next = require('next')
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -10,22 +10,38 @@ const port = 3000
 const app = next({ dev, hostname, port })
 const handle = app.getRequestHandler()
 
-app.prepare().then(() => {
-  createServer(async (req, res) => {
-    try {
-      // Be sure to pass `true` as the second argument to `url.parse`.
-      // This tells it to parse the query portion of the URL.
-      const parsedUrl = parse(req.url, true);
-      const { pathname, query } = parsedUrl;
+console.log("preparing app...")
 
-      await handle(req, res, parsedUrl);
-    } catch (err) {
-      console.error('Error occurred handling', req.url, err)
-      res.statusCode = 500
-      res.end('internal server error')
+try{
+  app.prepare().then(() => {
+    console.log("launching the express server...")
+    try{
+      const server = express();
+
+      console.log("express server was created");
+  
+      //server.use("/uploads", express.static(__dirname + "/public/uploads"));
+    
+      const httpServer = http.createServer(server);
+
+      console.log("creating the http server...")
+
+      server.all('*', (req, res) => {
+
+        return handle(req, res)
+      });
+    
+      httpServer.listen(port, (err) => {
+        if(err){
+          console.log(err);
+        }
+        console.log(`> HTTP Ready on port ${port}`)
+      });
+    }catch(e){
+      console.log(e);
     }
-  }).listen(port, (err) => {
-    if (err) throw err
-    console.log(`> Ready on http://${hostname}:${port}`)
+  
   })
-})
+}catch(e){
+  console.log(e);
+}

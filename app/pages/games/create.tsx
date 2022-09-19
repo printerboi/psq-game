@@ -159,18 +159,20 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
                 }
             }
 
-
             router.push(`/games/view?id=${res.data.message}`);
          }catch(e: any){
+            console.log(e);
 
             if(e.response.status == 400){
-                setErrMsg("Das hat leider nicht funktioniert. Bitte probiere es erneut!");
+                if(e.response.data.errorcode == 97){
+                    setErrMsg("Bitte achte darauf, dass die Summe des Einkaufs >= 0 sein muss!");
+                }else{
+                    setErrMsg("Das hat leider nicht funktioniert. Bitte probiere es erneut!");
+                }
             }
 
             setShowError(true);
             setNewGame(initalGame);
-            setErrMsg("");
-            setShowError(false);
          }
     }
 
@@ -197,7 +199,7 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
             <div className={styles.container}>
                 <Head>
                     <title>Dashboard</title>
-                    <meta name="description" content="Dashboard der Anwendung" />
+                    <meta name="description" content="PSQ ein neues Spiel erstellen" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
             
@@ -211,7 +213,7 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
                             <i className='bx bx-x-circle' ></i>
                         </div>
                         <div className={styles.gameImage} onClick={() => {fileRef.current?.click();}}>
-                            <Image alt="Bild des Einkaufs" src={imageURLObject} width={300} height={600} layout='intrinsic'/>
+                            <Image alt="Bild des Einkaufs" className={styles.im} src={imageURLObject} width={300} height={600} layout={'fill'} objectFit={'contain'}/>
                         </div>
 
                         <Form.Control style={{display: 'none'}} accept={allowdTypes.toString()} ref={fileRef} name='image' type="file" onChange={(e) => {uploadGameImage(e)}}/>

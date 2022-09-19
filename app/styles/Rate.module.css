@@ -24,14 +24,10 @@
 
 .gameImage{
     margin-bottom: 50px;
-    height: 40vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 60vw;
-
+    position: relative;
     border: 3px lightgray dashed;
+    max-width: 100%;
+    padding: 200px 150px 200px 150px;
 }
 
 .rateButton{

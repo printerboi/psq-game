@@ -24,15 +24,11 @@
 
 .gameImage{
     margin-bottom: 50px;
-    max-height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
     position: relative;
-
     border: 3px lightgray dashed;
+    max-width: 100%;
+    padding: 200px 150px 200px 150px;
+    text-align: center;
 }
 
 
@@ -56,3 +52,4 @@
 .hideRemoveImage{
     display: none;
 }
+

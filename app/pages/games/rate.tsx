@@ -145,7 +145,7 @@ const GameRate: NextPage<InitialProps> = ( props: InitialProps ) => {
             <div className={styles.container}>
                 <Head>
                     <title>Einem Spiel beitreten</title>
-                    <meta name="description" content="Bewertung der Mitarbeiter" />
+                    <meta name="description" content="PSQ einem Spiel joinen" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
 

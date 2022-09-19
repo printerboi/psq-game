@@ -30,6 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                     salt: true,
                     email: true,
                     roleid: true,
+                    pointOffset: true,
                 },
                 where: { username: data.username }
             });
@@ -54,6 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                         'username': user.username,
                         'email': user.email,
                         'roleid': user.roleid,
+                        'pointOffset': user.pointOffset,
                     };
 
                     let B = Buffer.from(JSON.stringify( cookieData )).toString('base64');
