@@ -30,6 +30,10 @@
     padding: 200px 150px 200px 150px;
 }
 
+.im{
+    image-orientation: from-image !important;
+}
+
 .rateButton{
     margin-top: 25px;
 }

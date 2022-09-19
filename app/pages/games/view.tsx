@@ -210,7 +210,7 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
                     <h3 className={styles.viewHeadline}>{props.InitialState.username}<br/>Einkauf bei {props.Game.shop}</h3>
     
                     <div className={styles.gameImage}>
-                        <Image alt="Bild des Einkaufs" src={`/api/image-endpoint/${props.id}.png`} width={300} height={600} layout={'fill'} objectFit={'contain'}/>
+                        <Image alt="Bild des Einkaufs" className={styles.im} src={`/api/image-endpoint/${props.id}.png`} width={300} height={600} layout={'fill'} objectFit={'contain'}/>
                     </div>
     
                     <div className={styles.gamePrice}>
