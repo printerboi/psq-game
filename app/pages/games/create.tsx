@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
+import heic2any from 'heic2any'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -78,7 +79,7 @@ export function isTypeAllowed( type: string ): boolean {
     return isAllowed;
 }
 
-const allowdTypes = ['image/jpg', 'image/jpeg', 'image/gif', 'image/apng', 'image/png', 'image/webp']
+const allowdTypes = ['image/jpg', 'image/jpeg', 'image/gif', 'image/apng', 'image/png', 'image/webp', 'image/heif', 'image/heic']
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   //Get the context of the request
@@ -117,11 +118,7 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
          try{
             const res = await axios.post(`/api/game/`, newGame);
 
-            console.log(fileRef);
-
             let fileList = fileRef.current?.files;
-
-            console.log(fileList);
 
             let newId = res.data.message;
 
@@ -192,7 +189,22 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
             files: FileList
         };
 
-        setImageURLObject(URL.createObjectURL(target.files[0]));
+        let result = null;
+        console.log(target.files[0].type);
+        if(target.files[0].type == "image/heic" || target.files[0].type == "image/heif"){
+            const heic2any = require('heic2any');
+
+            let file = target.files[0];
+            
+            result = await heic2any({
+                blob: file,
+                toType: "image/png",
+            });
+        }else{
+            result = target.files[0];
+        }
+
+        setImageURLObject(URL.createObjectURL(result as Blob));
         setShowRemoveImageOverlay(true);
     }
 

@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from 'next-connect';
 import multer from 'multer';
 import fs from 'fs';
+import Jimp from 'jimp';
+import convert from 'heic-convert';
 
 let uploadedFileName = "";
 let globalFileName = "ccccc";
@@ -13,6 +15,8 @@ const upload = multer({
     destination: './public/.cache',
     filename: async (req, file, cb) => {
       let id = req.query.id;
+
+      console.log(file.mimetype);
       
       if(file.mimetype == "image/png"){
         globalType = ".png";
@@ -73,7 +77,27 @@ apiRoute.post(async (req, res) => {
         //This code seems highly illegal, as the files are not converted and only written into a new file with a different extension...
         //But if it works, it works...
         let cachedFileBuffer = fs.readFileSync(oldfile);
-        fs.writeFileSync(newFile, cachedFileBuffer);
+
+        let correctedFileBuffer = cachedFileBuffer;
+
+        if(globalMimeType == 'image/heif' || globalMimeType == 'image/heic'){
+          const outputBuffer = await convert({
+            buffer: cachedFileBuffer, // the HEIC file buffer
+            format: 'PNG'        // output format
+          })
+
+          fs.writeFileSync('./public/.cache/' + globalFileName + '.png', Buffer.from(outputBuffer));
+        }
+
+
+        Jimp.read(oldfile, (err, lenna) => {
+          if (err) throw err;
+          lenna
+            .write(newFile); // save
+        });
+        
+
+        //fs.writeFileSync(newFile, correctedFileBuffer);
         fs.unlinkSync(oldfile);
       }catch(e){
         console.log('FEHLER:', e);
