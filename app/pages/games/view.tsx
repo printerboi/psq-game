@@ -147,8 +147,6 @@ const GameView: NextPage<InitialProps> = ( props: InitialProps ) => {
         let diffs: Array<number> = [];
         let soll = game.sum;
 
-        console.log(game);
-
         game.ratings.map((rating: Rating, index: number) => {
             diffs[index] = Math.abs(soll - rating.value);
         });

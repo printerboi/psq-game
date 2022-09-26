@@ -191,6 +191,8 @@ const Home: NextPage<InitialProps> = ( props: InitialProps ) => {
                 </thead>
                 <tbody>
                 {props.Data.games.map((result: WinResult, index: number) => {
+                  
+
                   const handlePoints = (p: number) => {
                     if(p == 0){
                       return "🦶"

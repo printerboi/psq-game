@@ -66,6 +66,13 @@ export function isTypeAllowed( type: string ): boolean {
         case('image/webp'):
             isAllowed = true;
             break;
+        case('image/heic'):
+            isAllowed = true;
+            break;
+        case('image/heif'):
+            isAllowed = true;
+            break;
+        
     }
 
     return isAllowed;

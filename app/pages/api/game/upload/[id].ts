@@ -24,6 +24,10 @@ const upload = multer({
         globalType = ".gif";
       }else if(file.mimetype == "image/webp"){
         globalType = ".webp";
+      }else if(file.mimetype == 'image/heic'){
+        globalType = ".heic";
+      }else if(file.mimetype == 'image/heif'){
+        globalType = ".heif";
       }
 
       globalMimeType = file.mimetype;
