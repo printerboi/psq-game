@@ -67,19 +67,13 @@ export function isTypeAllowed( type: string ): boolean {
         case('image/webp'):
             isAllowed = true;
             break;
-        case('image/heic'):
-            isAllowed = true;
-            break;
-        case('image/heif'):
-            isAllowed = true;
-            break;
         
     }
 
     return isAllowed;
 }
 
-const allowdTypes = ['image/jpg', 'image/jpeg', 'image/gif', 'image/apng', 'image/png', 'image/webp', 'image/heif', 'image/heic']
+const allowdTypes = ['image/jpg', 'image/jpeg', 'image/gif', 'image/apng', 'image/png', 'image/webp']
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   //Get the context of the request
