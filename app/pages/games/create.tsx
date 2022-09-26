@@ -183,14 +183,11 @@ const CreateGame: NextPage<InitialProps> = ( props: InitialProps ) => {
     const uploadGameImage = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        console.log(e.target);
-
         const target = e.target as typeof e.target & {
             files: FileList
         };
 
         let result = null;
-        console.log(target.files[0].type);
         if(target.files[0].type == "image/heic" || target.files[0].type == "image/heif"){
             const heic2any = require('heic2any');
 
